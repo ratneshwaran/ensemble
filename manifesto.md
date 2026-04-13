@@ -40,4 +40,4 @@ We begin small, with intellectual seriousness as our founding principle. We do n
 
 The future is not a forecast. It is a design problem. And design problems require more than designers. They require everyone who will live with the result.
 
-Ensemble — Est. 2025 · London · Founding document
+Ensemble — Est. 2026 · London · Founding document
