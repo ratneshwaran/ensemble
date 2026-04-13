@@ -1,0 +1,28 @@
+{
+  "name": "ensemble",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "node tests/site.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ratneshwaran/ensemble.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ratneshwaran/ensemble/issues"
+  },
+  "homepage": "https://github.com/ratneshwaran/ensemble#readme",
+  "devDependencies": {
+    "cheerio": "^1.2.0",
+    "html-validate": "^10.12.1"
+  }
+}

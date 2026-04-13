@@ -241,20 +241,20 @@ img {
   background-color: var(--bg-card);
 }
 
-/* CTA in nav */
-.nav-cta {
+/* CTA in nav — doubled selector to override .nav-item a */
+.nav-item a.nav-cta {
   margin-left: 0.6rem;
-  padding: 0.42rem 1.1rem !important;
-  font-size: 0.78rem !important;
-  font-weight: 500 !important;
-  color: #fff !important;
-  background: var(--green) !important;
+  padding: 0.42rem 1.1rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #fff;
+  background: var(--green);
   border-radius: 5px;
-  transition: background-color 0.2s !important;
+  transition: background-color 0.2s;
 }
 
-.nav-cta:hover {
-  background: var(--green-bright) !important;
+.nav-item a.nav-cta:hover {
+  background: var(--green-bright);
 }
 
 /* Mobile nav toggle */
