@@ -414,7 +414,7 @@ img {
 .hero__logo {
   flex-shrink: 0;
   width: 400px;
-  opacity: 0.25;
+  opacity: 0.5;
 }
 
 .hero__logo img {
