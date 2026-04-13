@@ -52,6 +52,22 @@
     });
   }
 
+  /* ── Hero logo 3D tilt on mouse move ────────────────────── */
+  var heroLogo = document.querySelector(".hero__logo");
+  if (heroLogo) {
+    var logoImg = heroLogo.querySelector("img");
+    heroLogo.addEventListener("mousemove", function (e) {
+      var rect = heroLogo.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      logoImg.style.transform =
+        "rotateY(" + (x * 25) + "deg) rotateX(" + (-y * 25) + "deg)";
+    });
+    heroLogo.addEventListener("mouseleave", function () {
+      logoImg.style.transform = "rotateY(0deg) rotateX(0deg)";
+    });
+  }
+
   /* ── Active nav link highlighting ───────────────────────── */
   var currentPath = window.location.pathname.replace(/\/$/, "");
   document.querySelectorAll(".nav-item > a, .nav-dropdown a").forEach(function (link) {
