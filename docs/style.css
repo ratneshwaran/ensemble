@@ -1204,7 +1204,8 @@ img {
   }
 
   .hero__logo {
-    display: none;
+    width: 160px;
+    margin: 0 auto;
   }
 
   .hero--compact {
@@ -1248,6 +1249,13 @@ img {
   /* Cards — reduce padding for mobile */
   .offering-card {
     padding: 1.6rem 1.4rem;
+    align-items: stretch;
+  }
+
+  .offering-card .btn {
+    width: 100%;
+    justify-content: center;
+    align-self: stretch;
   }
 
   .area-card {
