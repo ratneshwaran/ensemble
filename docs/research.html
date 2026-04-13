@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research — Ensemble</title>
+  <meta name="description" content="Ensemble's research spans AI safety, AI governance, and the philosophy of artificial intelligence.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══ HEADER ═══════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="/" class="logo">
+        <span class="logo__mark">E</span>
+        Ensemble
+      </a>
+      <nav class="nav-desktop">
+        <div class="nav-item">
+          <button>Research <svg class="nav-chevron" viewBox="0 0 10 10"><polyline points="2,3 5,6 8,3"/></svg></button>
+          <div class="nav-dropdown">
+            <a href="research.html">Overview</a>
+            <a href="research.html#safety">AI Safety</a>
+            <a href="research.html#governance">AI Governance</a>
+            <a href="research.html#philosophy">Philosophy of AI</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <button>Activities <svg class="nav-chevron" viewBox="0 0 10 10"><polyline points="2,3 5,6 8,3"/></svg></button>
+          <div class="nav-dropdown">
+            <a href="events.html">Events &amp; Talks</a>
+            <a href="events.html#seminars">Seminars</a>
+            <a href="events.html#roundtables">Roundtables</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <button>Community <svg class="nav-chevron" viewBox="0 0 10 10"><polyline points="2,3 5,6 8,3"/></svg></button>
+          <div class="nav-dropdown">
+            <a href="community.html">Ambassador Programme</a>
+            <a href="community.html#network">University Network</a>
+          </div>
+        </div>
+        <div class="nav-item"><a href="about.html">About</a></div>
+        <div class="nav-item"><a href="community.html#join" class="nav-cta">Get Involved</a></div>
+      </nav>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="nav-mobile">
+    <div class="nav-mobile__group">
+      <div class="nav-mobile__label">Research</div>
+      <a href="research.html">Overview</a>
+      <a href="research.html#safety">AI Safety</a>
+      <a href="research.html#governance">AI Governance</a>
+      <a href="research.html#philosophy">Philosophy of AI</a>
+    </div>
+    <div class="nav-mobile__group">
+      <div class="nav-mobile__label">Activities</div>
+      <a href="events.html">Events &amp; Talks</a>
+      <a href="events.html#seminars">Seminars</a>
+      <a href="events.html#roundtables">Roundtables</a>
+    </div>
+    <div class="nav-mobile__group">
+      <div class="nav-mobile__label">Community</div>
+      <a href="community.html">Ambassador Programme</a>
+      <a href="community.html#network">University Network</a>
+    </div>
+    <div class="nav-mobile__group">
+      <a href="about.html">About</a>
+      <a href="community.html#join">Get Involved</a>
+    </div>
+  </div>
+
+  <!-- ═══ HERO ═════════════════════════════════════════════ -->
+  <section class="hero hero--compact">
+    <div class="hero__bg hero__bg--simple"></div>
+    <div class="hero__content">
+      <div class="hero__label">Research</div>
+      <h1 class="hero__title">Research that changes how people think about what they are building.</h1>
+      <p class="hero__subtitle">We produce work that bridges technical AI safety and governance — the kind of analysis that is legible to both an engineer and a policymaker.</p>
+    </div>
+  </section>
+
+  <!-- ═══ APPROACH ═════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <div class="section__label">Our approach</div>
+        <div class="prose">
+          <p>We do not produce position papers for their own sake. Our focus areas — AI safety, AI governance, and the philosophy of AI — are not treated as separate disciplines. The most important questions sit at their intersections, and that is where we work.</p>
+          <p>Our research is designed to speak across audiences. A paper on alignment risk should be as useful to a legislator as it is to a machine learning researcher. A governance proposal should be grounded in a real understanding of how the systems actually work. This is harder than working within a single discipline, but it is where the most important contributions will come from.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ RESEARCH AREAS ═══════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <div class="section__label">Focus areas</div>
+        <div class="section__heading">Three intersecting research domains</div>
+      </div>
+
+      <div class="grid grid--3 reveal">
+        <div class="area-card" id="safety">
+          <div class="area-card__label">Focus area</div>
+          <div class="area-card__title">AI Safety</div>
+          <p class="area-card__text">Technical and conceptual research on ensuring AI systems behave as intended and do not cause unintended harm. We are interested in alignment, robustness, interpretability, and the challenge of specifying what we actually want from increasingly capable systems.</p>
+          <div class="area-card__topics">
+            <span class="topic-tag">Alignment</span>
+            <span class="topic-tag">Robustness</span>
+            <span class="topic-tag">Interpretability</span>
+            <span class="topic-tag">Value specification</span>
+          </div>
+        </div>
+
+        <div class="area-card" id="governance">
+          <div class="area-card__label">Focus area</div>
+          <div class="area-card__title">AI Governance</div>
+          <p class="area-card__text">Research on the regulatory, institutional, and policy frameworks needed to govern AI systems responsibly. We focus on how governance can keep pace with fast-moving technology, and how it can be informed by genuine technical understanding rather than abstraction.</p>
+          <div class="area-card__topics">
+            <span class="topic-tag">Regulation</span>
+            <span class="topic-tag">Institutional design</span>
+            <span class="topic-tag">Standards</span>
+            <span class="topic-tag">International coordination</span>
+          </div>
+        </div>
+
+        <div class="area-card" id="philosophy">
+          <div class="area-card__label">Focus area</div>
+          <div class="area-card__title">Philosophy of AI</div>
+          <p class="area-card__text">Foundational questions about the nature of intelligence, agency, consciousness, and moral status as they apply to artificial systems. We think the philosophical questions are not downstream of the technical ones — they shape how we understand what is being built.</p>
+          <div class="area-card__topics">
+            <span class="topic-tag">Agency</span>
+            <span class="topic-tag">Consciousness</span>
+            <span class="topic-tag">Moral status</span>
+            <span class="topic-tag">Human autonomy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PUBLICATIONS ═════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <div class="section__label">Publications</div>
+        <div class="section__heading">Coming soon</div>
+        <p class="section__intro">Our first research outputs are in development. Subscribe to our mailing list to be notified when we publish.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ══════════════════════════════════════════════ -->
+  <div class="cta-banner">
+    <div class="cta-banner__inner reveal">
+      <div class="cta-banner__text">
+        <h2>Collaborate with us</h2>
+        <p>We welcome research collaborations with academics, institutions, and independent researchers.</p>
+      </div>
+      <div class="cta-banner__actions">
+        <a href="mailto:hello@ensemblelondon.org" class="btn btn--primary">Get in touch <span class="btn__arrow">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-brand__name">Ensemble</div>
+          <p class="footer-brand__desc">A London-based research and community organisation working at the intersection of AI safety, governance, and the philosophy of artificial intelligence.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter / X">X</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col__title">Research</div>
+          <a href="research.html#safety">AI Safety</a>
+          <a href="research.html#governance">AI Governance</a>
+          <a href="research.html#philosophy">Philosophy of AI</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col__title">Activities</div>
+          <a href="events.html">Public Talks</a>
+          <a href="events.html#seminars">Seminars</a>
+          <a href="events.html#roundtables">Roundtables</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col__title">Organisation</div>
+          <a href="about.html">About</a>
+          <a href="community.html">Community</a>
+          <a href="mailto:hello@ensemblelondon.org">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-bottom__copy">&copy; 2026 Ensemble &middot; London</span>
+        <div class="footer-bottom__links">
+          <a href="mailto:hello@ensemblelondon.org">hello@ensemblelondon.org</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
