@@ -46,6 +46,7 @@
 html {
   font-size: 17px;
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1179,6 +1180,16 @@ img {
     display: flex;
   }
 
+  /* Mobile nav — larger touch targets */
+  .nav-mobile a {
+    padding: 0.7rem 0;
+    font-size: 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Hero */
   .hero {
     min-height: 70vh;
   }
@@ -1196,6 +1207,11 @@ img {
     display: none;
   }
 
+  .hero--compact {
+    padding-top: calc(64px + 3rem);
+    padding-bottom: 3rem;
+  }
+
   .hero__title {
     font-size: 2rem;
   }
@@ -1204,29 +1220,100 @@ img {
     font-size: 1rem;
   }
 
-  .section {
-    padding: 4rem 0;
+  .hero__actions {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
+  /* Sections */
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .section__heading {
+    font-size: 1.35rem;
+  }
+
+  .section__intro {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Grids */
   .grid--3,
   .grid--2 {
     grid-template-columns: 1fr;
   }
 
+  /* Cards — reduce padding for mobile */
+  .offering-card {
+    padding: 1.6rem 1.4rem;
+  }
+
+  .area-card {
+    padding: 1.8rem 1.4rem;
+  }
+
+  .info-card {
+    padding: 1.5rem 1.4rem;
+  }
+
+  .event-card__body {
+    padding: 1.3rem 1.4rem;
+  }
+
+  /* Buttons — larger touch targets */
+  .btn {
+    padding: 0.75rem 1.6rem;
+    font-size: 0.85rem;
+  }
+
+  /* Team */
   .team-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.2rem;
   }
 
+  /* CTA banner */
   .cta-banner__inner {
     flex-direction: column;
     text-align: center;
     padding: 3rem var(--gutter);
   }
 
+  .cta-banner__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-banner__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Quote */
+  .quote-section {
+    padding: 4rem var(--gutter);
+  }
+
+  .quote-section__text {
+    font-size: 1.25rem;
+  }
+
+  /* Timeline */
+  .timeline-item {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  /* Footer */
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+
+  .footer-brand {
+    max-width: none;
   }
 
   .footer-bottom {
@@ -1235,27 +1322,80 @@ img {
     text-align: center;
   }
 
-  .timeline-item {
-    grid-template-columns: 1fr;
-    gap: 0.4rem;
+  .footer-bottom__links a {
+    word-break: break-all;
   }
 
-  .quote-section__text {
-    font-size: 1.25rem;
+  /* Prose — respect viewport */
+  .prose blockquote {
+    margin: 1.8rem 0;
+    font-size: 1.05rem;
   }
+}
 
-  .hero__actions {
-    flex-direction: column;
-    align-items: flex-start;
+/* Disable hover transforms on touch devices */
+@media (hover: none) {
+  .offering-card:hover,
+  .event-card:hover,
+  .area-card:hover {
+    transform: none;
   }
 }
 
 @media (max-width: 480px) {
+  :root {
+    --gutter: 1.2rem;
+  }
+
   .hero__title {
     font-size: 1.65rem;
   }
 
+  .hero__subtitle {
+    font-size: 0.92rem;
+  }
+
+  /* Cards — tighter padding on small phones */
+  .offering-card,
+  .area-card,
+  .info-card {
+    padding: 1.4rem 1.2rem;
+  }
+
+  .event-card__body {
+    padding: 1.2rem;
+  }
+
+  .event-card__image {
+    height: 150px;
+  }
+
+  /* CTA banner */
+  .cta-banner__inner {
+    padding: 2.5rem var(--gutter);
+  }
+
+  .cta-banner__text h2 {
+    font-size: 1.2rem;
+  }
+
+  /* Team */
   .team-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Section label & heading */
+  .section__heading {
+    font-size: 1.2rem;
+  }
+
+  /* Area cards */
+  .area-card__title {
+    font-size: 1.15rem;
+  }
+
+  /* Footer */
+  .footer-brand__desc {
+    font-size: 0.82rem;
   }
 }
