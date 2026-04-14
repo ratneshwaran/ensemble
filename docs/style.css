@@ -1270,8 +1270,26 @@ img {
 
   /* Hero */
   .hero {
-    min-height: 70vh;
+    min-height: auto;
     padding-top: 70px;
+  }
+
+  .hero__bg::before {
+    bottom: -30%;
+    width: 200%;
+    height: 200%;
+    background: repeating-conic-gradient(
+      from 0deg at 50% 100%,
+      transparent 0deg 2.8deg,
+      rgba(25, 23, 20, 0.03) 2.8deg 3.2deg
+    );
+    mask-image: radial-gradient(ellipse 90% 60% at 50% 100%, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 100%, black 0%, transparent 70%);
+  }
+
+  .hero__bg::after {
+    width: 250px;
+    height: 250px;
   }
 
   .hero__inner {
@@ -1459,6 +1477,17 @@ img {
 
   .hero {
     padding-top: 60px;
+  }
+
+  .hero__bg::before {
+    bottom: -40%;
+    width: 250%;
+    height: 250%;
+  }
+
+  .hero__bg::after {
+    width: 180px;
+    height: 180px;
   }
 
   .hero--compact {
