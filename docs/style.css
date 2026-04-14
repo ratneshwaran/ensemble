@@ -466,7 +466,7 @@ img {
 
 .hero__logo {
   flex-shrink: 0;
-  width: 500px;
+  width: 550px;
   opacity: 0.75;
   perspective: 600px;
 }
@@ -1239,7 +1239,7 @@ img {
   }
 
   .logo {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     gap: 0.6rem;
   }
 
@@ -1303,7 +1303,7 @@ img {
   }
 
   .hero__logo {
-    width: 260px;
+    width: 520px;
     margin: 0 auto;
   }
 
@@ -1499,7 +1499,7 @@ img {
   }
 
   .hero__logo {
-    width: 200px;
+    width: 400px;
   }
 
   .hero__title {
