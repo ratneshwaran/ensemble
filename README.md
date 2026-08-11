@@ -22,7 +22,7 @@ docs/
   about.html         About Ensemble
   research.html      Research focus areas
   events.html        Events, seminars, and roundtables
-  ambassadors.html   Ambassador programme (hidden — see below)
+  ambassadors.html   Ambassador programme (hidden, see below)
   style.css          Stylesheet
   script.js          Mobile nav, scroll reveal, active nav links
   CNAME              Custom domain (ensemblelondon.org)
@@ -32,7 +32,7 @@ Static site hosted on GitHub Pages from the `docs/` folder.
 
 `ambassadors.html` is deliberately unlinked: it carries `noindex` and appears in no
 navigation, footer, or CTA, so it is reachable only by direct URL. The page and its
-application form still work — restoring the programme means re-adding links to it.
+application form still work. Restoring the programme means re-adding links to it.
 
 ## Development
 
