@@ -354,9 +354,10 @@ img {
   background: radial-gradient(circle, rgba(42, 106, 78, 0.06) 0%, transparent 70%);
 }
 
-/* Simple gradient hero for subpages */
+/* Plain hero for subpages. Kept flat white: the hero sits behind the fixed
+   header, so any tint at the top edge reads as a seam where the header ends. */
 .hero__bg--simple {
-  background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg) 60%);
+  background: var(--bg);
 }
 
 .hero__bg--simple::before,
