@@ -51,4 +51,6 @@ Tests cover HTML structure, internal links, navigation consistency, footer integ
 
 - [Instagram](https://www.instagram.com/ensemble.london/)
 - [LinkedIn](https://www.linkedin.com/company/ensemble-london/)
-- Email: hello@ensemblelondon.org
+
+The hello@ensemblelondon.org address is not published on the site for now; contact
+routes point at LinkedIn instead.

@@ -158,10 +158,10 @@ for (const page of PAGES) {
     assert(navText.includes("Research"), "Nav missing Research");
     assert(navText.includes("Events"), "Nav missing Events");
     assert(navText.includes("About"), "Nav missing About");
-    assert(navText.includes("Contact"), "Nav missing Contact");
+    assert(navText.includes("Connect"), "Nav missing Connect");
   });
 
-  test(`${page}: has Contact CTA in nav`, () => {
+  test(`${page}: has Connect CTA in nav`, () => {
     assert($(".nav-cta").length > 0, "Missing .nav-cta");
   });
 }
@@ -216,9 +216,12 @@ for (const page of PAGES) {
     assert(footerText.includes("Ensemble"), "Copyright should include Ensemble");
   });
 
-  test(`${page}: footer has email link`, () => {
-    const emailLinks = $('a[href="mailto:hello@ensemblelondon.org"]');
-    assert(emailLinks.length > 0, "Missing email link in footer");
+  // The hello@ mailbox is not published for now. Contact routes go to
+  // LinkedIn instead, so no mailto: should appear anywhere on the site.
+  test(`${page}: exposes no email address`, () => {
+    const html = fs.readFileSync(path.join(DOCS, page), "utf-8");
+    assert(!html.includes("mailto:"), "Found a mailto: link");
+    assert(!/[\w.+-]+@[\w-]+\.[\w.]+/.test($("body").text()), "Found an email address in page text");
   });
 
   test(`${page}: footer has LinkedIn link`, () => {
