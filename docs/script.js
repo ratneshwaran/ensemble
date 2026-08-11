@@ -70,7 +70,7 @@
 
   /* ── Active nav link highlighting ───────────────────────── */
   var currentPath = window.location.pathname.replace(/\/$/, "");
-  document.querySelectorAll(".nav-item > a, .nav-dropdown a").forEach(function (link) {
+  document.querySelectorAll(".nav-item > a").forEach(function (link) {
     var href = link.getAttribute("href");
     if (href && href !== "/" && currentPath.endsWith(href.replace(/\/$/, ""))) {
       link.style.color = "var(--heading)";

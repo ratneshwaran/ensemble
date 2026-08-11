@@ -12,7 +12,10 @@ const path = require("path");
 const { load } = require("cheerio");
 
 const DOCS = path.join(__dirname, "..", "docs");
-const PAGES = ["index.html", "about.html", "research.html", "events.html", "community.html"];
+// ambassadors.html is intentionally excluded — it is unlinked from site
+// navigation and reachable by direct URL only, so nav-consistency checks
+// do not apply to it. Its Notion form links are covered separately below.
+const PAGES = ["index.html", "about.html", "research.html", "events.html"];
 
 let passed = 0;
 let failed = 0;
@@ -153,13 +156,12 @@ for (const page of PAGES) {
   test(`${page}: desktop nav has all sections`, () => {
     const navText = $(".nav-desktop").text();
     assert(navText.includes("Research"), "Nav missing Research");
-    assert(navText.includes("Activities"), "Nav missing Activities");
-    assert(navText.includes("Community"), "Nav missing Community");
+    assert(navText.includes("Events"), "Nav missing Events");
     assert(navText.includes("About"), "Nav missing About");
-    assert(navText.includes("Get Involved"), "Nav missing Get Involved");
+    assert(navText.includes("Contact"), "Nav missing Contact");
   });
 
-  test(`${page}: has Get Involved CTA in nav`, () => {
+  test(`${page}: has Contact CTA in nav`, () => {
     assert($(".nav-cta").length > 0, "Missing .nav-cta");
   });
 }
@@ -416,16 +418,22 @@ test("events.html: has seminar and roundtable anchors", () => {
   assert($("#roundtables").length > 0, "Missing #roundtables anchor");
 });
 
-test("community.html: has network and join anchors", () => {
-  const $ = loadPage("community.html");
-  assert($("#network").length > 0, "Missing #network anchor");
-  assert($("#join").length > 0, "Missing #join anchor");
-});
-
-test("community.html: ambassador apply links to Notion form", () => {
-  const $ = loadPage("community.html");
+test("ambassadors.html: ambassador apply links to Notion form", () => {
+  const $ = loadPage("ambassadors.html");
   const applyLinks = $('a[href*="notion.site"]');
   assert(applyLinks.length >= 2, `Expected 2 Notion form links, found ${applyLinks.length}`);
+});
+
+test("ambassadors.html: is hidden from search and unlinked from nav", () => {
+  const $ = loadPage("ambassadors.html");
+  assert($('meta[name="robots"]').attr("content") === "noindex", "Missing noindex meta");
+  for (const page of PAGES) {
+    const $page = loadPage(page);
+    assert(
+      $page('a[href*="ambassadors.html"]').length === 0,
+      `${page} still links to ambassadors.html`
+    );
+  }
 });
 
 test("about.html: has team section", () => {

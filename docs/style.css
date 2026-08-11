@@ -15,17 +15,17 @@
 /* ── Design Tokens ────────────────────────────────────────── */
 
 :root {
-  --bg:           #f5f0e8;
-  --bg-elevated:  #ede8df;
-  --bg-card:      #eae5dc;
-  --bg-card-hover:#e2ddd3;
-  --border:       #d6d0c4;
-  --border-lt:    #c8c2b6;
+  --bg:           #ffffff;
+  --bg-elevated:  #f7f7f8;
+  --bg-card:      #fafafa;
+  --bg-card-hover:#f2f2f4;
+  --border:       #e6e6e9;
+  --border-lt:    #d2d2d7;
 
-  --text:         #3d3929;
-  --text-dim:     #6b6555;
-  --text-faint:   #9a9484;
-  --heading:      #191714;
+  --text:         #3f3f46;
+  --text-dim:     #6e6e78;
+  --text-faint:   #9c9ca6;
+  --heading:      #18181b;
 
   --green:        #2a6a4e;
   --green-bright: #347e5e;
@@ -168,7 +168,7 @@ img {
   left: 0;
   right: 0;
   z-index: 100;
-  background-color: rgba(245, 240, 232, 0.9);
+  background-color: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: none;
@@ -207,12 +207,7 @@ img {
   gap: 0.5rem;
 }
 
-.nav-item {
-  position: relative;
-}
-
-.nav-item > a,
-.nav-item > button {
+.nav-item > a {
   display: flex;
   align-items: center;
   gap: 0.3rem;
@@ -222,67 +217,12 @@ img {
   font-weight: 450;
   letter-spacing: 0.01em;
   color: var(--text-dim);
-  background: none;
-  border: none;
-  cursor: pointer;
   transition: color 0.2s;
   white-space: nowrap;
 }
 
-.nav-item > a:hover,
-.nav-item > button:hover,
-.nav-item:hover > a,
-.nav-item:hover > button {
+.nav-item > a:hover {
   color: var(--heading);
-}
-
-.nav-chevron {
-  width: 10px;
-  height: 10px;
-  stroke: currentColor;
-  stroke-width: 2;
-  fill: none;
-  transition: transform 0.2s;
-}
-
-.nav-item:hover .nav-chevron {
-  transform: rotate(180deg);
-}
-
-/* Dropdown */
-.nav-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 220px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.5rem 0;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(4px);
-  transition: all 0.2s var(--ease);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
-}
-
-.nav-item:hover .nav-dropdown {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.nav-dropdown a {
-  display: block;
-  padding: 0.55rem 1.1rem;
-  font-size: 0.8rem;
-  color: var(--text-dim);
-  transition: color 0.15s, background-color 0.15s;
-}
-
-.nav-dropdown a:hover {
-  color: var(--heading);
-  background-color: var(--bg-card);
 }
 
 /* CTA in nav — doubled selector to override .nav-item a */
@@ -340,17 +280,7 @@ img {
 }
 
 .nav-mobile__group {
-  border-bottom: 1px solid var(--border);
   padding: 1rem 0;
-}
-
-.nav-mobile__label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  margin-bottom: 0.6rem;
 }
 
 .nav-mobile a {
@@ -407,7 +337,7 @@ img {
   background: repeating-conic-gradient(
     from 0deg at 50% 100%,
     transparent 0deg 3.2deg,
-    rgba(25, 23, 20, 0.03) 3.2deg 3.6deg
+    rgba(24, 24, 27, 0.035) 3.2deg 3.6deg
   );
   mask-image: radial-gradient(ellipse 80% 70% at 50% 100%, black 0%, transparent 70%);
   -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 100%, black 0%, transparent 70%);
@@ -758,7 +688,7 @@ img {
 .event-card__image {
   width: 100%;
   height: 200px;
-  background: linear-gradient(135deg, var(--bg-elevated) 0%, #d6d0c4 100%);
+  background: linear-gradient(135deg, var(--bg-elevated) 0%, #e6e6e9 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -977,8 +907,9 @@ img {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 2rem;
+  max-width: 720px;
 }
 
 .team-member {
@@ -1061,7 +992,7 @@ img {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 3rem;
   margin-bottom: 3.5rem;
 }
@@ -1209,10 +1140,6 @@ img {
     gap: 2rem;
   }
 
-  .team-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .split {
     grid-template-columns: 1fr;
     gap: 2.5rem;
@@ -1281,7 +1208,7 @@ img {
     background: repeating-conic-gradient(
       from 0deg at 50% 100%,
       transparent 0deg 2.8deg,
-      rgba(25, 23, 20, 0.03) 2.8deg 3.2deg
+      rgba(24, 24, 27, 0.035) 2.8deg 3.2deg
     );
     mask-image: radial-gradient(ellipse 90% 60% at 50% 100%, black 0%, transparent 70%);
     -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 100%, black 0%, transparent 70%);
@@ -1386,7 +1313,6 @@ img {
 
   /* Team */
   .team-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 1.2rem;
   }
 
