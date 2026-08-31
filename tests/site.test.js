@@ -337,11 +337,8 @@ test("style.css: defines CSS custom properties", () => {
   assert(css.includes(":root"), "Missing :root with custom properties");
   assert(css.includes("--bg"), "Missing --bg custom property");
   assert(css.includes("--text"), "Missing --text custom property");
-  assert(css.includes("--ink"), "Missing --ink custom property");
-  assert(!/var\(--green/.test(css), "Green accent is back; the palette is monochrome");
-  // Two greens once hid from a hex grep in rgba() form; catch that shape too.
-  assert(!/rgba\(\s*\d+\s*,\s*(?:8[0-9]|9[0-9]|1[0-4][0-9])\s*,\s*\d+/.test(css),
-    "A green-ish rgba() is back; the palette is monochrome");
+  assert(css.includes("--green"), "Missing --green custom property");
+  assert(!/var\(--ink/.test(css), "Leftover --ink reference; the accent token is --green");
 });
 
 test("style.css: font tokens are the IBM Plex Mono / Lora pairing", () => {

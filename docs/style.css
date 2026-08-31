@@ -27,9 +27,9 @@
   --text-faint:   #71717a;  /* 4.83:1 on white — AA for small text */
   --heading:      #000000;
 
-  /* One accent, and it is black. Replaces the old green. */
-  --ink:          #000000;
-  --ink-soft:     #33333a;
+  /* Green accent, used for labels, the primary button and the nav CTA. */
+  --green:        #2a6a4e;
+  --green-bright: #347e5e;
 
   --max-w:        1360px;
   --max-w-narrow: 780px;
@@ -243,13 +243,13 @@ img {
   font-size: 0.82rem;
   font-weight: 500;
   color: #fff;
-  background: var(--ink);
+  background: var(--green);
   border-radius: 0;
   transition: background-color 0.2s;
 }
 
 .nav-item a.nav-cta:hover {
-  background: var(--ink-soft);
+  background: var(--green-bright);
 }
 
 /* Mobile nav toggle */
@@ -362,7 +362,7 @@ img {
   transform: translateX(-50%);
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(42, 106, 78, 0.06) 0%, transparent 70%);
 }
 
 /* Plain hero, used on every page. Kept flat white: the hero sits behind the
@@ -432,7 +432,7 @@ img {
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--green);
   margin-bottom: 1.4rem;
 }
 
@@ -485,11 +485,11 @@ img {
 
 .btn--primary {
   color: #ffffff;
-  background: var(--ink);
+  background: var(--green);
 }
 
 .btn--primary:hover {
-  background: var(--ink-soft);
+  background: var(--green-bright);
 }
 
 .btn--outline {
@@ -540,7 +540,7 @@ img {
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--green);
   margin-bottom: 1.4rem;
 }
 
@@ -599,7 +599,7 @@ img {
 .prose blockquote {
   margin: 2.5rem 0;
   padding-left: 1.6rem;
-  border-left: 2px solid var(--ink);
+  border-left: 2px solid var(--green);
   font-family: var(--font-serif);
   font-size: 1.15rem;
   font-style: italic;
@@ -679,11 +679,11 @@ img {
   width: 40px;
   height: 40px;
   border-radius: 0;
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(58, 143, 106, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--ink);
+  color: var(--green);
   margin-bottom: 1.4rem;
 }
 
@@ -711,7 +711,7 @@ img {
 .offering-card__link {
   font-size: 0.82rem;
   font-weight: 500;
-  color: var(--ink);
+  color: var(--green);
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -758,7 +758,7 @@ img {
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--green);
   margin-bottom: 0.6rem;
 }
 
@@ -790,7 +790,7 @@ img {
 .info-card__number {
   font-size: 2rem;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--green);
   margin-bottom: 0.6rem;
   line-height: 1;
 }
@@ -829,7 +829,7 @@ img {
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--green);
   margin-bottom: 1rem;
 }
 
@@ -1175,7 +1175,7 @@ img {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--ink);
+  background: var(--green);
 }
 
 /* ═══════════════════════════════════════════════════════════
