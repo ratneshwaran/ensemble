@@ -19,32 +19,39 @@
   --bg-elevated:  #f7f7f8;
   --bg-card:      #fafafa;
   --bg-card-hover:#f2f2f4;
-  --border:       #e6e6e9;
-  --border-lt:    #d2d2d7;
+  --border:       #dedee2;
+  --border-lt:    #b6b6bd;
 
-  --text:         #3f3f46;
-  --text-dim:     #6e6e78;
-  --text-faint:   #9c9ca6;
-  --heading:      #18181b;
+  --text:         #2f2f35;
+  --text-dim:     #5c5c66;
+  --text-faint:   #71717a;  /* 4.83:1 on white — AA for small text */
+  --heading:      #000000;
 
-  --green:        #2a6a4e;
-  --green-bright: #347e5e;
-  --green-dim:    #1f5a40;
-  --navy:         #4a5a7a;
-  --navy-dim:     #3a4a66;
+  /* One accent, and it is black. Replaces the old green. */
+  --ink:          #000000;
+  --ink-soft:     #33333a;
 
-  --max-w:        1400px;
-  --max-w-narrow: 740px;
+  --max-w:        1360px;
+  --max-w-narrow: 780px;
   --gutter:       2.5rem;
 
-  --font-sans:    "Inter", system-ui, -apple-system, sans-serif;
-  --font-serif:   "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-sans:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif:   "Lora", Georgia, "Times New Roman", serif;
+
+  /* Fluid type. Each scales continuously from phone to desktop, so no
+     font-size needs restating at a breakpoint. */
+  --fs-display:   clamp(2.3rem, 6vw, 4.5rem);
+  --fs-lede:      clamp(1.05rem, 1.5vw, 1.3rem);
+  --fs-heading:   clamp(1.45rem, 2.4vw, 2rem);
+  --fs-body:      clamp(1.02rem, 1.2vw, 1.15rem);
+  --fs-quote:     clamp(1.45rem, 3.2vw, 2.25rem);
+  --fs-label:     0.78rem;
 
   --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 html {
-  font-size: 17px;
+  font-size: 18px;
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
   -webkit-font-smoothing: antialiased;
@@ -109,6 +116,7 @@ img {
 .reveal.visible > .area-card,
 .reveal.visible > .info-card,
 .reveal.visible > .event-card,
+.reveal.visible > .focus-item,
 .reveal.visible > .team-member {
   opacity: 1;
   transform: translateY(0);
@@ -118,6 +126,7 @@ img {
 .reveal > .area-card,
 .reveal > .info-card,
 .reveal > .event-card,
+.reveal > .focus-item,
 .reveal > .team-member {
   opacity: 0;
   transform: translateY(28px);
@@ -176,7 +185,9 @@ img {
 }
 
 .site-header__inner {
-  padding: 0 3rem;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -228,17 +239,17 @@ img {
 /* CTA in nav — doubled selector to override .nav-item a */
 .nav-item a.nav-cta {
   margin-left: 0.6rem;
-  padding: 0.42rem 1.1rem;
-  font-size: 0.78rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: #fff;
-  background: var(--green);
-  border-radius: 5px;
+  background: var(--ink);
+  border-radius: 0;
   transition: background-color 0.2s;
 }
 
 .nav-item a.nav-cta:hover {
-  background: var(--green-bright);
+  background: var(--ink-soft);
 }
 
 /* Mobile nav toggle */
@@ -351,11 +362,12 @@ img {
   transform: translateX(-50%);
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(42, 106, 78, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.05) 0%, transparent 70%);
 }
 
-/* Plain hero for subpages. Kept flat white: the hero sits behind the fixed
-   header, so any tint at the top edge reads as a seam where the header ends. */
+/* Plain hero, used on every page. Kept flat white: the hero sits behind the
+   fixed header, so any tint at the top edge reads as a seam where the header
+   ends. This also switches off the starburst rays and the centre glow. */
 .hero__bg--simple {
   background: var(--bg);
 }
@@ -370,12 +382,14 @@ img {
   z-index: 1;
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 6rem 4rem;
+  /* Same gutter as .container, so the header, the hero copy and every section
+     below share one left edge. The phone breakpoint already used the gutter. */
+  padding: 6rem var(--gutter);
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6rem;
+  gap: 4.5rem;
 }
 
 .hero__content {
@@ -397,7 +411,7 @@ img {
 
 .hero__logo {
   flex-shrink: 0;
-  width: 550px;
+  width: 420px;
   opacity: 0.75;
   perspective: 600px;
 }
@@ -414,30 +428,32 @@ img {
 }
 
 .hero__label {
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--green);
+  color: var(--ink);
   margin-bottom: 1.4rem;
 }
 
 .hero__title {
   font-family: var(--font-serif);
-  font-size: 3.2rem;
+  font-size: var(--fs-display);
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
   color: var(--heading);
-  max-width: 800px;
+  max-width: 14em;
   margin-bottom: 1.8rem;
+  text-wrap: balance;
 }
 
 .hero__subtitle {
   font-family: var(--font-serif);
-  font-size: 1.1rem;
-  line-height: 1.75;
+  font-size: var(--fs-lede);
+  line-height: 1.7;
   color: var(--text-dim);
-  max-width: 580px;
+  max-width: 28em;
   margin-bottom: 2.4rem;
 }
 
@@ -457,10 +473,10 @@ img {
   gap: 0.5rem;
   padding: 0.65rem 1.6rem;
   font-family: var(--font-sans);
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   font-weight: 500;
   letter-spacing: 0.02em;
-  border-radius: 5px;
+  border-radius: 0;
   border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.2s var(--ease);
@@ -469,11 +485,11 @@ img {
 
 .btn--primary {
   color: #ffffff;
-  background: var(--green);
+  background: var(--ink);
 }
 
 .btn--primary:hover {
-  background: var(--green-bright);
+  background: var(--ink-soft);
 }
 
 .btn--outline {
@@ -520,17 +536,26 @@ img {
 }
 
 .section__label {
-  font-size: 0.7rem;
+  font-size: var(--fs-label);
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--green);
-  margin-bottom: 1rem;
+  color: var(--ink);
+  margin-bottom: 1.4rem;
+}
+
+/* Section numbers, document-style: "01 / WHO WE ARE". */
+.section__num {
+  color: var(--text-faint);
+}
+
+.section__num::after {
+  content: " / ";
 }
 
 .section__heading {
   font-family: var(--font-sans);
-  font-size: 1.6rem;
+  font-size: var(--fs-heading);
   font-weight: 600;
   color: var(--heading);
   margin-bottom: 1rem;
@@ -539,10 +564,10 @@ img {
 
 .section__intro {
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: var(--fs-body);
   line-height: 1.75;
   color: var(--text-dim);
-  max-width: 600px;
+  max-width: 32em;
   margin-bottom: 2.8rem;
 }
 
@@ -556,7 +581,7 @@ img {
 
 .prose p {
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: var(--fs-body);
   line-height: 1.8;
   color: var(--text);
   margin-bottom: 1.3rem;
@@ -574,7 +599,7 @@ img {
 .prose blockquote {
   margin: 2.5rem 0;
   padding-left: 1.6rem;
-  border-left: 2px solid var(--green);
+  border-left: 2px solid var(--ink);
   font-family: var(--font-serif);
   font-size: 1.15rem;
   font-style: italic;
@@ -607,12 +632,38 @@ img {
   grid-template-columns: repeat(2, 1fr);
 }
 
+/* ── Focus Items ──────────────────────────────────────────── */
+/* Home-page focus areas. A thin rule instead of card chrome, so the
+   three areas read as one row rather than three boxes. */
+
+.focus-item {
+  border-top: 1px solid var(--border);
+  padding-top: 1.3rem;
+}
+
+.focus-item__title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--heading);
+  margin-bottom: 0.8rem;
+}
+
+.focus-item__text {
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.75;
+  color: var(--text-dim);
+}
+
 /* ── Offering Cards ───────────────────────────────────────── */
 
 .offering-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 0;
   padding: 2.2rem 1.8rem;
   display: flex;
   flex-direction: column;
@@ -627,12 +678,12 @@ img {
 .offering-card__icon {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-  background: rgba(58, 143, 106, 0.1);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--green);
+  color: var(--ink);
   margin-bottom: 1.4rem;
 }
 
@@ -660,7 +711,7 @@ img {
 .offering-card__link {
   font-size: 0.82rem;
   font-weight: 500;
-  color: var(--green);
+  color: var(--ink);
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -676,7 +727,7 @@ img {
 .event-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 0;
   overflow: hidden;
   transition: border-color 0.25s, transform 0.25s;
 }
@@ -707,7 +758,7 @@ img {
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--green);
+  color: var(--ink);
   margin-bottom: 0.6rem;
 }
 
@@ -732,14 +783,14 @@ img {
 .info-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 0;
   padding: 2rem 1.8rem;
 }
 
 .info-card__number {
   font-size: 2rem;
   font-weight: 600;
-  color: var(--green);
+  color: var(--ink);
   margin-bottom: 0.6rem;
   line-height: 1;
 }
@@ -763,7 +814,7 @@ img {
 .area-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 0;
   padding: 2.5rem 2rem;
   transition: border-color 0.25s, transform 0.25s;
 }
@@ -778,7 +829,7 @@ img {
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--green);
+  color: var(--ink);
   margin-bottom: 1rem;
 }
 
@@ -812,7 +863,7 @@ img {
   color: var(--text-dim);
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 0;
   padding: 0.25rem 0.65rem;
 }
 
@@ -848,7 +899,7 @@ img {
 
 .quote-section__text {
   font-family: var(--font-serif);
-  font-size: 1.6rem;
+  font-size: var(--fs-quote);
   font-weight: 400;
   line-height: 1.5;
   color: var(--heading);
@@ -920,7 +971,7 @@ img {
 .team-member__photo {
   width: 100%;
   aspect-ratio: 1;
-  border-radius: 8px;
+  border-radius: 0;
   background: var(--bg-card);
   border: 1px solid var(--border);
   margin-bottom: 1rem;
@@ -1013,7 +1064,7 @@ img {
 
 .footer-brand__desc {
   font-family: var(--font-serif);
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   line-height: 1.65;
   color: var(--text-dim);
   margin-bottom: 1.4rem;
@@ -1027,7 +1078,7 @@ img {
 .footer-social a {
   width: 34px;
   height: 34px;
-  border-radius: 6px;
+  border-radius: 0;
   border: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -1124,7 +1175,7 @@ img {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--ink);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1134,6 +1185,26 @@ img {
 @media (max-width: 1024px) {
   .grid--3 {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Thin-ruled rows are short lines, not cards, so they hold three across
+     on tablets. Must follow .grid--3 to win; they collapse to one column
+     at the phone breakpoint further down. */
+  .grid--rows {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Stack the hero here: a two-up row this narrow starves the headline and
+     wraps the eyebrow label onto two lines. */
+  .hero__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3rem;
+  }
+
+  .hero__logo {
+    width: 320px;
+    margin: 0;
   }
 
   .footer-grid {
@@ -1157,7 +1228,7 @@ img {
   }
 
   html {
-    font-size: 16px;
+    font-size: 17px;
   }
 
   /* Header — smaller on mobile */
@@ -1177,6 +1248,12 @@ img {
 
   .nav-desktop {
     display: none;
+  }
+
+  /* A one-item nav needs no hamburger, so it stays on at mobile widths.
+     Must follow .nav-desktop above: same specificity, source order wins. */
+  .nav-desktop--solo {
+    display: flex;
   }
 
   .nav-toggle {
@@ -1231,8 +1308,8 @@ img {
   }
 
   .hero__logo {
-    width: 520px;
-    margin: 0 auto;
+    width: 300px;
+    margin: 0;
   }
 
   .hero--compact {
@@ -1249,14 +1326,6 @@ img {
     transform: translateX(20px);
   }
 
-  .hero__title {
-    font-size: 2rem;
-  }
-
-  .hero__subtitle {
-    font-size: 1rem;
-  }
-
   .hero__actions {
     flex-direction: column;
     align-items: flex-start;
@@ -1267,12 +1336,7 @@ img {
     padding: 3.5rem 0;
   }
 
-  .section__heading {
-    font-size: 1.35rem;
-  }
-
   .section__intro {
-    font-size: 0.95rem;
     margin-bottom: 2rem;
   }
 
@@ -1426,15 +1490,7 @@ img {
   }
 
   .hero__logo {
-    width: 90%;
-  }
-
-  .hero__title {
-    font-size: 1.65rem;
-  }
-
-  .hero__subtitle {
-    font-size: 0.92rem;
+    width: 240px;
   }
 
   /* Cards — tighter padding on small phones */
@@ -1464,11 +1520,6 @@ img {
   /* Team */
   .team-grid {
     grid-template-columns: 1fr;
-  }
-
-  /* Section label & heading */
-  .section__heading {
-    font-size: 1.2rem;
   }
 
   /* Area cards */

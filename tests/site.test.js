@@ -12,10 +12,18 @@ const path = require("path");
 const { load } = require("cheerio");
 
 const DOCS = path.join(__dirname, "..", "docs");
-// ambassadors.html is intentionally excluded — it is unlinked from site
-// navigation and reachable by direct URL only, so nav-consistency checks
-// do not apply to it. Its Notion form links are covered separately below.
-const PAGES = ["index.html", "about.html", "research.html", "events.html"];
+// The site is a single page. PAGES holds the real, fully-built pages that the
+// structure/nav/footer/security checks apply to.
+//
+// REDIRECT_STUBS are the old multi-page URLs, kept only so existing external
+// links do not 404. They are bare meta-refresh documents with no CSS, JS, nav,
+// or footer, so the PAGES checks deliberately do not apply to them.
+//
+// ambassadors.html is excluded from both — it is unlinked from site navigation
+// and reachable by direct URL only, so nav-consistency checks do not apply to
+// it. Its Notion form links are covered separately below.
+const PAGES = ["index.html"];
+const REDIRECT_STUBS = ["about.html", "research.html", "events.html"];
 
 let passed = 0;
 let failed = 0;
@@ -142,23 +150,10 @@ for (const page of PAGES) {
     assert($(".nav-desktop").length > 0, "Missing .nav-desktop");
   });
 
-  test(`${page}: has mobile nav`, () => {
-    assert($(".nav-mobile").length > 0, "Missing .nav-mobile");
-  });
-
-  test(`${page}: has mobile nav toggle`, () => {
-    const toggle = $(".nav-toggle");
-    assert(toggle.length > 0, "Missing .nav-toggle");
-    assert(toggle.attr("aria-label"), "nav-toggle missing aria-label");
-    assert(toggle.attr("aria-expanded") === "false", "nav-toggle aria-expanded should default to false");
-  });
-
-  test(`${page}: desktop nav has all sections`, () => {
+  test(`${page}: desktop nav is the single Connect item`, () => {
     const navText = $(".nav-desktop").text();
-    assert(navText.includes("Research"), "Nav missing Research");
-    assert(navText.includes("Events"), "Nav missing Events");
-    assert(navText.includes("About"), "Nav missing About");
     assert(navText.includes("Connect"), "Nav missing Connect");
+    assert($(".nav-desktop .nav-item").length === 1, `Expected 1 nav item, found ${$(".nav-desktop .nav-item").length}`);
   });
 
   test(`${page}: has Connect CTA in nav`, () => {
@@ -230,10 +225,11 @@ for (const page of PAGES) {
     assert(linkedin.attr("target") === "_blank", "LinkedIn should open in new tab");
   });
 
-  test(`${page}: footer has Instagram link`, () => {
-    const ig = $('a[href="https://www.instagram.com/ensemble.london/"]');
-    assert(ig.length > 0, "Missing Instagram link");
-    assert(ig.attr("target") === "_blank", "Instagram should open in new tab");
+  // Instagram is hidden for now. The markup is commented out rather than
+  // deleted, so this guards against it being uncommented by accident.
+  test(`${page}: Instagram icon stays hidden`, () => {
+    const ig = $('a[href*="instagram.com"]');
+    assert(ig.length === 0, `Instagram link is live again (${ig.length} found)`);
   });
 
   test(`${page}: no placeholder social links (href="#")`, () => {
@@ -341,7 +337,17 @@ test("style.css: defines CSS custom properties", () => {
   assert(css.includes(":root"), "Missing :root with custom properties");
   assert(css.includes("--bg"), "Missing --bg custom property");
   assert(css.includes("--text"), "Missing --text custom property");
-  assert(css.includes("--green"), "Missing --green custom property");
+  assert(css.includes("--ink"), "Missing --ink custom property");
+  assert(!/var\(--green/.test(css), "Green accent is back; the palette is monochrome");
+  // Two greens once hid from a hex grep in rgba() form; catch that shape too.
+  assert(!/rgba\(\s*\d+\s*,\s*(?:8[0-9]|9[0-9]|1[0-4][0-9])\s*,\s*\d+/.test(css),
+    "A green-ish rgba() is back; the palette is monochrome");
+});
+
+test("style.css: font tokens are the IBM Plex Mono / Lora pairing", () => {
+  const css = fs.readFileSync(path.join(DOCS, "style.css"), "utf-8");
+  assert(/--font-sans:\s*"IBM Plex Mono"/.test(css), "--font-sans should lead with IBM Plex Mono");
+  assert(/--font-serif:\s*"Lora"/.test(css), "--font-serif should lead with Lora");
 });
 
 test("style.css: has responsive breakpoints", () => {
@@ -355,6 +361,24 @@ test("style.css: no !important overuse", () => {
   const count = (css.match(/!important/g) || []).length;
   assert(count <= 5, `Too many !important (${count}) — indicates specificity issues`);
 });
+
+// ─── Fonts ───────────────────────────────────────────────────
+
+console.log("\n--- Fonts ---");
+
+// Any page using style.css must request both families, or the mono/serif
+// tokens silently fall back to system faces.
+for (const page of [...PAGES, "ambassadors.html"]) {
+  test(`${page}: requests both font families`, () => {
+    const $ = loadPage(page);
+    const hrefs = $('link[href*="fonts.googleapis.com/css2"]')
+      .map((_, el) => $(el).attr("href"))
+      .get()
+      .join(" ");
+    assert(hrefs.includes("IBM+Plex+Mono"), "Missing IBM Plex Mono");
+    assert(hrefs.includes("Lora"), "Missing Lora");
+  });
+}
 
 // ─── Accessibility ───────────────────────────────────────────
 
@@ -402,23 +426,76 @@ test("index.html: has hero section", () => {
   assert($(".hero__title").text().length > 10, "Hero title too short");
 });
 
+test("index.html: is the only real page in the site", () => {
+  const realPages = fs
+    .readdirSync(DOCS)
+    .filter((f) => f.endsWith(".html"))
+    .filter((f) => f !== "ambassadors.html")
+    .filter((f) => !REDIRECT_STUBS.includes(f));
+  assert(
+    realPages.length === 1 && realPages[0] === "index.html",
+    `Expected index.html only, found: ${realPages.join(", ")}`
+  );
+});
+
+test("index.html: has no internal page links left", () => {
+  const $ = loadPage("index.html");
+  const internal = [];
+  $("a[href]").each((_, el) => {
+    const href = $(el).attr("href");
+    if (href && !href.startsWith("http") && href !== "/" && !href.startsWith("#")) {
+      internal.push(href);
+    }
+  });
+  assert(internal.length === 0, `Single-page site still links to pages: ${internal.join(", ")}`);
+});
+
+test("index.html: describes the events programme", () => {
+  const $ = loadPage("index.html");
+  const titles = $(".focus-item__title").map((_, el) => $(el).text().trim()).get();
+  assert(titles.length === 3, `Expected 3 programme items, found ${titles.length}`);
+  for (const expected of ["Public Talks", "Seminars", "Roundtables"]) {
+    assert(titles.includes(expected), `Missing programme item: ${expected}`);
+  }
+});
+
+test("index.html: sections are numbered", () => {
+  const $ = loadPage("index.html");
+  const nums = $(".section__num").map((_, el) => $(el).text().trim()).get();
+  assert(nums.join(",") === "01,02,03", `Expected 01,02,03 — got ${nums.join(",")}`);
+});
+
+// Stealth: the domains may be named, the research agenda may not. This guards
+// against the detailed focus-area copy being pasted back in.
+test("index.html: research stays vague while in stealth", () => {
+  const $ = loadPage("index.html");
+  const text = $("body").text();
+  const tooSpecific = [
+    "interpretability",
+    "value specification",
+    "institutional design",
+    "robustness",
+    "moral status",
+  ].filter((t) => new RegExp(t, "i").test(text));
+  assert(tooSpecific.length === 0, `Research detail is back on the page: ${tooSpecific.join(", ")}`);
+});
+
+test("index.html: has the manifesto quote", () => {
+  const $ = loadPage("index.html");
+  assert($(".quote-section__text").text().length > 40, "Missing or short quote");
+  assert($(".quote-section__attr").text().includes("Ensemble"), "Quote missing attribution");
+});
+
+test("index.html: stays minimal", () => {
+  const $ = loadPage("index.html");
+  const sections = $("section").length;
+  assert(sections <= 5, `Home page has grown to ${sections} sections; keep it lean`);
+});
+
 test("index.html: has OG meta tags", () => {
   const $ = loadPage("index.html");
   assert($('meta[property="og:title"]').length > 0, "Missing og:title");
   assert($('meta[property="og:description"]').length > 0, "Missing og:description");
-});
-
-test("research.html: has all three focus areas", () => {
-  const $ = loadPage("research.html");
-  assert($("#safety").length > 0, "Missing #safety section");
-  assert($("#governance").length > 0, "Missing #governance section");
-  assert($("#philosophy").length > 0, "Missing #philosophy section");
-});
-
-test("events.html: has seminar and roundtable anchors", () => {
-  const $ = loadPage("events.html");
-  assert($("#seminars").length > 0, "Missing #seminars anchor");
-  assert($("#roundtables").length > 0, "Missing #roundtables anchor");
 });
 
 test("ambassadors.html: ambassador apply links to Notion form", () => {
@@ -439,10 +516,41 @@ test("ambassadors.html: is hidden from search and unlinked from nav", () => {
   }
 });
 
-test("about.html: has team section", () => {
-  const $ = loadPage("about.html");
-  assert($(".team-grid").length > 0, "Missing team grid");
-});
+// ─── Redirect stubs ──────────────────────────────────────────
+
+console.log("\n--- Redirect stubs ---");
+
+for (const stub of REDIRECT_STUBS) {
+  test(`${stub}: exists so old links do not 404`, () => {
+    assert(fs.existsSync(path.join(DOCS, stub)), `${stub} not found`);
+  });
+
+  test(`${stub}: redirects to the home page`, () => {
+    const $ = loadPage(stub);
+    const refresh = $('meta[http-equiv="refresh"]').attr("content");
+    assert(refresh, "Missing meta refresh");
+    assert(/^0;\s*url=\/$/.test(refresh), `Expected "0; url=/", got "${refresh}"`);
+  });
+
+  test(`${stub}: is noindex with a canonical pointing home`, () => {
+    const $ = loadPage(stub);
+    assert($('meta[name="robots"]').attr("content") === "noindex", "Missing noindex");
+    assert(
+      $('link[rel="canonical"]').attr("href") === "https://ensemblelondon.org/",
+      "Canonical should point at the site root"
+    );
+  });
+
+  test(`${stub}: has a no-JS fallback link home`, () => {
+    const $ = loadPage(stub);
+    assert($('a[href="/"]').length > 0, "Missing manual link to /");
+  });
+
+  test(`${stub}: carries no scripts`, () => {
+    const $ = loadPage(stub);
+    assert($("script").length === 0, "Redirect stub should contain no scripts");
+  });
+}
 
 // ─── Cross-page link consistency ─────────────────────────────
 
