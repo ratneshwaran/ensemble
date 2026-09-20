@@ -459,7 +459,7 @@ test("index.html: describes the events programme", () => {
 test("index.html: sections are numbered", () => {
   const $ = loadPage("index.html");
   const nums = $(".section__num").map((_, el) => $(el).text().trim()).get();
-  assert(nums.join(",") === "01,02,03", `Expected 01,02,03 — got ${nums.join(",")}`);
+  assert(nums.join(",") === "01,02,03,04", `Expected 01,02,03,04 — got ${nums.join(",")}`);
 });
 
 // Stealth: the domains may be named, the research agenda may not. This guards
@@ -486,7 +486,17 @@ test("index.html: has the manifesto quote", () => {
 test("index.html: stays minimal", () => {
   const $ = loadPage("index.html");
   const sections = $("section").length;
-  assert(sections <= 5, `Home page has grown to ${sections} sections; keep it lean`);
+  assert(sections <= 6, `Home page has grown to ${sections} sections; keep it lean`);
+});
+
+test("index.html: newsletter signup points at the beehiiv publication", () => {
+  const $ = loadPage("index.html");
+  const link = $('a[href^="https://ensemblelondon.beehiiv.com/"]');
+  assert(link.length === 1, `Expected 1 newsletter link, found ${link.length}`);
+  assert(link.attr("target") === "_blank", "Newsletter link should open in a new tab");
+  // The pasted URL carried a _gl= Google Analytics linker blob, which is
+  // session-specific and would rot. Keep the canonical URL clean.
+  assert(!/[?&]_gl=/.test(link.attr("href")), "Newsletter URL still has GA linker params");
 });
 
 test("index.html: has OG meta tags", () => {
