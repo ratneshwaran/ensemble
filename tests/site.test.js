@@ -120,6 +120,13 @@ for (const page of PAGES) {
     assert(desc && desc.length > 20, "Missing or too short meta description");
   });
 
+  test(`${page}: has favicon and touch icon`, () => {
+    for (const [sel, file] of [['link[rel="icon"]', "favicon.ico"], ['link[rel="apple-touch-icon"]', "apple-touch-icon.png"]]) {
+      assert($(sel).attr("href") === "/" + file, `Missing ${sel} pointing at /${file}`);
+      assert(fs.existsSync(path.join(DOCS, file)), `${file} not found`);
+    }
+  });
+
   test(`${page}: links style.css`, () => {
     assert($('link[href="style.css"]').length > 0, "Missing style.css link");
   });
