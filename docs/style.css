@@ -615,6 +615,25 @@ img {
   margin: 2.5rem 0 1rem;
 }
 
+/* Legal pages: lists and inline links inside prose. */
+.legal ul {
+  margin: 0 0 1.3rem 1.2rem;
+  font-family: var(--font-serif);
+  font-size: var(--fs-body);
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.legal li {
+  margin-bottom: 0.5rem;
+}
+
+.legal a {
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 /* ═══════════════════════════════════════════════════════════
    CARD GRIDS
    ═══════════════════════════════════════════════════════════ */
@@ -991,6 +1010,30 @@ img {
 
 .team-member__role {
   font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+/* Home page co-founders: real photos, left-aligned under "Who we are". */
+.team-grid--founders {
+  margin-top: 4rem;
+  max-width: var(--max-w-narrow);
+}
+
+.team-grid--founders .team-member {
+  text-align: left;
+}
+
+.team-grid--founders .team-member__photo {
+  display: block;
+  height: auto;
+  object-fit: cover;
+}
+
+.team-member__bio {
+  margin-top: 0.8rem;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1.7;
   color: var(--text-dim);
 }
 

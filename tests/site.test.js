@@ -22,7 +22,11 @@ const DOCS = path.join(__dirname, "..", "docs");
 // ambassadors.html is excluded from both — it is unlinked from site navigation
 // and reachable by direct URL only, so nav-consistency checks do not apply to
 // it. Its Notion form links are covered separately below.
-const PAGES = ["index.html"];
+//
+// LEGAL_PAGES are the privacy policy and terms, linked from every footer. They
+// are full pages, so they sit in PAGES and get the same checks as index.html.
+const LEGAL_PAGES = ["privacy.html", "terms.html"];
+const PAGES = ["index.html", ...LEGAL_PAGES];
 const REDIRECT_STUBS = ["about.html", "research.html", "events.html"];
 
 let passed = 0;
@@ -423,15 +427,16 @@ test("index.html: has hero section", () => {
   assert($(".hero__title").text().length > 10, "Hero title too short");
 });
 
-test("index.html: is the only real page in the site", () => {
+test("index.html: is the only content page in the site", () => {
   const realPages = fs
     .readdirSync(DOCS)
     .filter((f) => f.endsWith(".html"))
     .filter((f) => f !== "ambassadors.html")
-    .filter((f) => !REDIRECT_STUBS.includes(f));
+    .filter((f) => !REDIRECT_STUBS.includes(f))
+    .filter((f) => !LEGAL_PAGES.includes(f));
   assert(
     realPages.length === 1 && realPages[0] === "index.html",
-    `Expected index.html only, found: ${realPages.join(", ")}`
+    `Expected index.html plus legal pages only, found: ${realPages.join(", ")}`
   );
 });
 
@@ -440,7 +445,7 @@ test("index.html: has no internal page links left", () => {
   const internal = [];
   $("a[href]").each((_, el) => {
     const href = $(el).attr("href");
-    if (href && !href.startsWith("http") && href !== "/" && !href.startsWith("#")) {
+    if (href && !href.startsWith("http") && href !== "/" && !href.startsWith("#") && !LEGAL_PAGES.includes(href)) {
       internal.push(href);
     }
   });
@@ -522,6 +527,15 @@ test("ambassadors.html: is hidden from search and unlinked from nav", () => {
     );
   }
 });
+
+for (const page of PAGES) {
+  test(`${page}: footer links to privacy policy and terms`, () => {
+    const $ = loadPage(page);
+    for (const legal of LEGAL_PAGES) {
+      assert($(`.footer-bottom__links a[href="${legal}"]`).length === 1, `Footer missing link to ${legal}`);
+    }
+  });
+}
 
 // ─── Redirect stubs ──────────────────────────────────────────
 
