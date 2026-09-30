@@ -25,7 +25,10 @@ const DOCS = path.join(__dirname, "..", "docs");
 //
 // LEGAL_PAGES are the privacy policy and terms, linked from every footer. They
 // are full pages, so they sit in PAGES and get the same checks as index.html.
+// They are linked by clean URLs (/privacy), which GitHub Pages serves from
+// privacy.html.
 const LEGAL_PAGES = ["privacy.html", "terms.html"];
+const LEGAL_URLS = LEGAL_PAGES.map((p) => "/" + p.replace(/\.html$/, ""));
 const PAGES = ["index.html", ...LEGAL_PAGES];
 const REDIRECT_STUBS = ["about.html", "research.html", "events.html"];
 
@@ -177,7 +180,9 @@ for (const page of PAGES) {
     $("a[href]").each((_, el) => {
       const href = $(el).attr("href");
       if (!href || href.startsWith("http") || href.startsWith("mailto:") || href === "/" || href === "#") return;
-      const file = href.split("#")[0];
+      let file = href.split("#")[0].replace(/^\//, "");
+      // Clean URLs like /privacy resolve to privacy.html on GitHub Pages.
+      if (file && !path.extname(file)) file += ".html";
       if (file && !fs.existsSync(path.join(DOCS, file))) {
         broken.push(href);
       }
@@ -445,7 +450,7 @@ test("index.html: has no internal page links left", () => {
   const internal = [];
   $("a[href]").each((_, el) => {
     const href = $(el).attr("href");
-    if (href && !href.startsWith("http") && href !== "/" && !href.startsWith("#") && !LEGAL_PAGES.includes(href)) {
+    if (href && !href.startsWith("http") && href !== "/" && !href.startsWith("#") && !LEGAL_URLS.includes(href)) {
       internal.push(href);
     }
   });
@@ -531,7 +536,7 @@ test("ambassadors.html: is hidden from search and unlinked from nav", () => {
 for (const page of PAGES) {
   test(`${page}: footer links to privacy policy and terms`, () => {
     const $ = loadPage(page);
-    for (const legal of LEGAL_PAGES) {
+    for (const legal of LEGAL_URLS) {
       assert($(`.footer-bottom__links a[href="${legal}"]`).length === 1, `Footer missing link to ${legal}`);
     }
   });
