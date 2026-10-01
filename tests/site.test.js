@@ -473,6 +473,19 @@ test("index.html: describes the events programme", () => {
   }
 });
 
+test("index.html: next event has a Luma register button", () => {
+  const $ = loadPage("index.html");
+  const btn = $('a[data-luma-action="checkout"]');
+  assert(btn.length === 1, `Expected 1 Luma register button, found ${btn.length}`);
+  const id = btn.attr("data-luma-event-id");
+  assert(/^evt-/.test(id || ""), "Register button needs a data-luma-event-id");
+  assert(btn.attr("href") === `https://luma.com/event/${id}`, "Fallback href should match the event id");
+  // Luma's script finds its own origin through this id.
+  assert($('script#luma-checkout[src="https://embed.lu.ma/checkout-button.js"]').length === 1, "Missing Luma checkout script");
+  assert($("iframe").length === 0, "The old Luma iframe embed is back");
+  assert(btn.closest("#next-event").length === 1, "Register button should sit in the Next event section");
+});
+
 test("index.html: sections are numbered", () => {
   const $ = loadPage("index.html");
   const nums = $(".section__num").map((_, el) => $(el).text().trim()).get();
@@ -503,7 +516,8 @@ test("index.html: has the manifesto quote", () => {
 test("index.html: stays minimal", () => {
   const $ = loadPage("index.html");
   const sections = $("section").length;
-  assert(sections <= 6, `Home page has grown to ${sections} sections; keep it lean`);
+  // 7 = hero, next event, four numbered sections, quote.
+  assert(sections <= 7, `Home page has grown to ${sections} sections; keep it lean`);
 });
 
 test("index.html: newsletter signup points at the beehiiv publication", () => {
