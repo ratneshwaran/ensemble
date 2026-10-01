@@ -520,6 +520,10 @@ test("index.html: has OG meta tags", () => {
   const $ = loadPage("index.html");
   assert($('meta[property="og:title"]').length > 0, "Missing og:title");
   assert($('meta[property="og:description"]').length > 0, "Missing og:description");
+  // Without og:image, link previews grab the first big image: a co-founder photo.
+  const img = $('meta[property="og:image"]').attr("content");
+  assert(img === "https://ensemblelondon.org/og-image.png", `og:image should be the logo share image, got "${img}"`);
+  assert(fs.existsSync(path.join(DOCS, "og-image.png")), "og-image.png not found");
 });
 
 test("ambassadors.html: ambassador apply links to Notion form", () => {
