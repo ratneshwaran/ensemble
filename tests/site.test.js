@@ -473,17 +473,19 @@ test("index.html: describes the events programme", () => {
   }
 });
 
-test("index.html: next event has a Luma register button", () => {
+test("index.html: latest post links to the Substack write-up", () => {
   const $ = loadPage("index.html");
-  const btn = $('a[data-luma-action="checkout"]');
-  assert(btn.length === 1, `Expected 1 Luma register button, found ${btn.length}`);
-  const id = btn.attr("data-luma-event-id");
-  assert(/^evt-/.test(id || ""), "Register button needs a data-luma-event-id");
-  assert(btn.attr("href") === `https://luma.com/event/${id}`, "Fallback href should match the event id");
-  // Luma's script finds its own origin through this id.
-  assert($('script#luma-checkout[src="https://embed.lu.ma/checkout-button.js"]').length === 1, "Missing Luma checkout script");
-  assert($("iframe").length === 0, "The old Luma iframe embed is back");
-  assert(btn.closest("#next-event").length === 1, "Register button should sit in the Next event section");
+  const link = $('#latest-post a[href^="https://ensemblelondon.substack.com/p/"]');
+  assert(link.length === 1, `Expected 1 Substack post link, found ${link.length}`);
+  // The shared URL carried ?r= referral and utm_ params. Keep the canonical URL clean.
+  assert(!link.attr("href").includes("?"), "Substack URL still has tracking params");
+});
+
+// The 9 October 2026 panel has passed. Its section and Luma's script are gone.
+test("index.html: past event and Luma script are removed", () => {
+  const $ = loadPage("index.html");
+  assert($("#next-event").length === 0, "The past event section is back");
+  assert($('script[src*="lu.ma"], a[data-luma-action]').length === 0, "Luma register button or script is back");
 });
 
 test("index.html: sections are numbered", () => {
@@ -516,7 +518,7 @@ test("index.html: has the manifesto quote", () => {
 test("index.html: stays minimal", () => {
   const $ = loadPage("index.html");
   const sections = $("section").length;
-  // 7 = hero, next event, four numbered sections, quote.
+  // 7 = hero, latest post, four numbered sections, quote.
   assert(sections <= 7, `Home page has grown to ${sections} sections; keep it lean`);
 });
 
